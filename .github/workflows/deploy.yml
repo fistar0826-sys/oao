@@ -12,6 +12,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Optimize images
+        uses: calibreapp/image-actions@main
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          compressOnly: true
+          ignorePaths: |
+            **/node_modules/**
+            **/dist/**
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -19,11 +28,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: Optimize images
-        run: |
-          npx imagemin 'public/**/*.{jpg,jpeg,png,svg,webp}' --out-dir=public
-          echo "✅ 圖片已壓縮完成"
 
       - name: Clean previous build
         run: rm -rf dist
@@ -54,5 +58,4 @@ jobs:
 
       - name: Clear GitHub Pages cache
         run: |
-          echo "嘗試清除快取 (GitHub Pages + 瀏覽器)"
-          echo "⚠️ 如果頁面看起來沒更新，請手動 Ctrl+F5 強制刷新"
+          echo "⚡ 清理完成，如果網站還顯示舊的，請手動 Ctrl+F5 刷新瀏覽器"
