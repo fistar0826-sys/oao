@@ -2,60 +2,45 @@ name: Deploy Vite site to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main  # 當 main 分支有更新時觸發
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Optimize images
-        uses: calibreapp/image-actions@main
-        with:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          compressOnly: true
-          ignorePaths: |
-            **/node_modules/**
-            **/dist/**
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: npm
 
       - name: Install dependencies
-        run: npm install
-
-      - name: Clean previous build
-        run: rm -rf dist
+        run: npm ci
 
       - name: Build project
         run: npm run build
 
       - name: Upload production-ready build files
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v2
         with:
           path: dist
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
-
-      - name: Clear GitHub Pages cache
-        run: |
-          echo "⚡ 清理完成，如果網站還顯示舊的，請手動 Ctrl+F5 刷新瀏覽器"
+        uses: actions/deploy-pages@v4
