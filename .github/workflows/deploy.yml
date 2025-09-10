@@ -20,6 +20,9 @@ jobs:
       - name: Install dependencies
         run: npm install   # 改這裡，不再用 npm ci
 
+      - name: Clean previous build
+        run: rm -rf dist   # 確保沒有舊的 dist 殘留
+
       - name: Build project
         run: npm run build
 
@@ -43,3 +46,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
+
+      - name: Clear GitHub Pages cache
+        run: |
+          echo "嘗試清除快取 (Cloudflare/瀏覽器部分需手動 CTRL+F5)..."
