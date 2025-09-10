@@ -1,5 +1,5 @@
 import React from "react";
-import { saveToGitHub } from "../services/githubStorage";
+import { saveToGitHub } from "./services/githubStorage";
 
 export default function DataManager() {
   const handleSave = async () => {
