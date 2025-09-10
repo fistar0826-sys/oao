@@ -18,10 +18,15 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install   # 改這裡，不再用 npm ci
+        run: npm install
+
+      - name: Optimize images
+        run: |
+          npx imagemin 'public/**/*.{jpg,jpeg,png,svg,webp}' --out-dir=public
+          echo "✅ 圖片已壓縮完成"
 
       - name: Clean previous build
-        run: rm -rf dist   # 確保沒有舊的 dist 殘留
+        run: rm -rf dist
 
       - name: Build project
         run: npm run build
@@ -49,4 +54,5 @@ jobs:
 
       - name: Clear GitHub Pages cache
         run: |
-          echo "嘗試清除快取 (Cloudflare/瀏覽器部分需手動 CTRL+F5)..."
+          echo "嘗試清除快取 (GitHub Pages + 瀏覽器)"
+          echo "⚠️ 如果頁面看起來沒更新，請手動 Ctrl+F5 強制刷新"
