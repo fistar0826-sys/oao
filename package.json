@@ -1,23 +1,22 @@
 {
-  "name": "copy-of-personal-finance-navigator",
+  "name": "oao",
+  "version": "0.0.1",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "firebase": "^12.2.1",
-    "chart.js": "^4.5.0",
-    "@google/genai": "^0.15.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "firebase": "^10.7.1"
   },
   "devDependencies": {
-    "@types/node": "^22.14.0",
-    "typescript": "~5.8.2",
-    "vite": "^6.2.0"
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.3",
+    "@vitejs/plugin-react": "^4.2.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.10"
   }
 }
