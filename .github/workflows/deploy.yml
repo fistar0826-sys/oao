@@ -2,12 +2,8 @@ name: Deploy Vite site to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+    branches:
+      - main   # ⚠️ 確認你的分支名稱是 main
 
 jobs:
   build:
@@ -16,25 +12,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build
         run: npm run build
 
-      - name: Upload dist
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
-
+          path: ./dist   # ✅ Vite build 輸出到 dist
+          
   deploy:
-    needs: build
     runs-on: ubuntu-latest
+    needs: build
     permissions:
       pages: write
       id-token: write
